@@ -45,10 +45,18 @@ class _CarrouselState extends State<Carrousel> {
     return Column(
       children: <Widget>[
         Expanded(
-          child: PageView(
+          child: PageView.builder(
             controller: _pageController,
+            pageSnapping: true,
             onPageChanged: _onPageChanged,
-            children: widget.children,
+            itemCount: widget.children.length,
+            itemBuilder: (_, index) => AnimatedContainer(
+              duration: kThemeAnimationDuration,
+              padding: index != _pageNumber
+                  ? const EdgeInsets.all(16.0)
+                  : EdgeInsets.zero,
+              child: widget.children[index],
+            ),
           ),
         ),
         _Indicator(
@@ -65,10 +73,18 @@ class _Indicator extends StatelessWidget {
     Key? key,
     required this.childCount,
     required this.currentPageNumber,
+    this.dotSize = 8.0,
+    this.margin = const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
+    this.primaryColor = Colors.blue,
+    this.secondaryColor = Colors.grey,
   }) : super(key: key);
 
   final int childCount;
   final int currentPageNumber;
+  final double dotSize;
+  final EdgeInsetsGeometry margin;
+  final Color primaryColor;
+  final Color secondaryColor;
 
   @override
   Widget build(BuildContext context) {
@@ -77,11 +93,11 @@ class _Indicator extends StatelessWidget {
       children: List<Widget>.generate(
         childCount,
         (index) => Container(
-          width: 10,
-          height: 10,
-          margin: const EdgeInsets.all(5.0),
+          width: dotSize,
+          height: dotSize,
+          margin: margin,
           decoration: BoxDecoration(
-            color: (index == currentPageNumber) ? Colors.blue : Colors.grey,
+            color: (index == currentPageNumber) ? primaryColor : secondaryColor,
             shape: BoxShape.circle,
           ),
         ),
