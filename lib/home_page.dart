@@ -16,12 +16,15 @@ class HomePage extends StatelessWidget {
         title: Text(title),
       ),
       body: const Center(
-        child: Carrousel(
-          children: <Widget>[
-            _FakePage(number: 1, color: Colors.red),
-            _FakePage(number: 2, color: Colors.blue),
-            _FakePage(number: 3, color: Colors.green),
-          ],
+        child: SizedBox(
+          height: 200.0,
+          child: Carrousel(
+            children: <Widget>[
+              _FakePage(number: 1, color: Colors.red),
+              _FakePage(number: 2, color: Colors.blue),
+              _FakePage(number: 3, color: Colors.green),
+            ],
+          ),
         ),
       ),
     );
